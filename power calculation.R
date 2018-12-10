@@ -51,20 +51,28 @@ prop.test(30,36,p = 0.5) #test if the proportion equals to null probability 0.5
 
 reps <- 10000
 set.seed(20181210)
-n <- 500
+
+## main part start here
+
+for (j in 1:45) {
+  
+n <- j*10  
+#n <- 50 + j*10 
+#n <- 500
 
 #suppose N = 500 and the true ORR is 0.5
 
 # Create 10000 samples of binomial distributed random variables
-heads <- rbinom(reps,size = n, prob = 0.35)
+heads <- rbinom(reps,size = n, prob = 0.5)
 
-for (i in 1:reps) {
+  for (i in 1:reps) {
   pvalues[i] <- prop.test(heads[i], n, p = 0.3)$p.value
+  }
+
+  power[j] <- mean(pvalues < 0.05)
+
 }
 
-power <- mean(pvalues < 0.05)
-
-power 
-
+which(power > 0.80)
 
 
